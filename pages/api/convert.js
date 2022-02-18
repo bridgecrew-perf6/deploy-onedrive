@@ -59,19 +59,19 @@ const docsToPDF = async (file) => {
 				}
 			);
 			// It saves to the local, but I want to save it on OneDrive
-			await response.data.pipe(fs.createWriteStream('./public/result.pdf'));
-			
+			//await response.data.pipe(fs.createWriteStream('./public/result.pdf'));
+			console.log('content',response.data);
 			await delay(3000);
 			console.log("Waited 3s");
 
-			await uploadToDrive('.\result.pdf');
+			await uploadToDrive(response.data);
 
-			if (fs.existsSync('public/result.pdf')) {
-				fs.unlink('public/result.pdf', function (err) {
-					if (err) throw err;
-					console.log('File deleted!');
-				})
-			} 
+			// if (fs.existsSync('public/result.pdf')) {
+			// 	fs.unlink('public/result.pdf', function (err) {
+			// 		if (err) throw err;
+			// 		console.log('File deleted!');
+			// 	})
+			// } 
 
 
 			return response.data;
@@ -86,9 +86,9 @@ const docsToPDF = async (file) => {
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
 
-const uploadToDrive = async (file) => {
+const uploadToDrive = async (data) => {
 	const parentId = '01XA3PFKG7YWH2K7QVIZCYRP33XLQEHLZG';
-	const content = file;
+	const content = data;
 	const filename = 'test.pdf';
 	const fileType = 'application/pdf';
 	console.log("content", content);
